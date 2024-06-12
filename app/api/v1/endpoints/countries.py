@@ -1,16 +1,43 @@
-from flask import Blueprint, jsonify
-from app.models.country import Country
+from flask_restx import Namespace, Resource, fields
 
-bp = Blueprint('countries', __name__, url_prefix='/countries')
+countries_api = Namespace('countries', description='Countries operations')
 
-@bp.route('/', methods=['GET'])
-def get_countries():
-    countries = Country.get_all()
-    return jsonify([country.to_dict() for country in countries])
+country_model = countries_api.model('Country', {
+    'id': fields.String(required=True, description='The country identifier'),
+    'name': fields.String(required=True, description='The country name'),
+})
 
-@bp.route('/<country_code>', methods=['GET'])
-def get_country(country_code):
-    country = Country.get(country_code)
-    if not country:
-        return jsonify({'error': 'Country not found'}), 404
-    return jsonify(country.to_dict())
+@countries_api.route('/')
+class CountryList(Resource):
+    @countries_api.doc('list_countries')
+    @countries_api.marshal_list_with(country_model)
+    def get(self):
+        '''List all countries'''
+        return []  # Replace with actual implementation
+
+    @countries_api.doc('create_country')
+    @countries_api.expect(country_model)
+    @countries_api.marshal_with(country_model, code=201)
+    def post(self):
+        '''Create a new country'''
+        return {}  # Replace with actual implementation
+
+@countries_api.route('/<string:country_id>')
+class CountryResource(Resource):
+    @countries_api.doc('get_country')
+    @countries_api.marshal_with(country_model)
+    def get(self, country_id):
+        '''Fetch a country given its identifier'''
+        return {}  # Replace with actual implementation
+
+    @countries_api.doc('update_country')
+    @countries_api.expect(country_model)
+    @countries_api.marshal_with(country_model)
+    def put(self, country_id):
+        '''Update a country given its identifier'''
+        return {}  # Replace with actual implementation
+
+    @countries_api.doc('delete_country')
+    def delete(self, country_id):
+        '''Delete a country given its identifier'''
+        return '', 204  # Replace with actual implementation

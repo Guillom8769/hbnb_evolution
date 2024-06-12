@@ -1,42 +1,44 @@
-from flask import Blueprint, request, jsonify
-from app.models.city import City
+from flask_restx import Namespace, Resource, fields
 
-bp = Blueprint('cities', __name__, url_prefix='/cities')
+cities_api = Namespace('cities', description='Cities operations')
 
-@bp.route('/', methods=['POST'])
-def create_city():
-    data = request.get_json()
-    city = City(name=data['name'], country_code=data['country_code'])
-    city.save()
-    return jsonify(city.to_dict()), 201
+city_model = cities_api.model('City', {
+    'id': fields.String(required=True, description='The city identifier'),
+    'name': fields.String(required=True, description='The city name'),
+    'description': fields.String(required=True, description='The city description'),
+})
 
-@bp.route('/<city_id>', methods=['GET'])
-def get_city(city_id):
-    city = City.get(city_id)
-    if not city:
-        return jsonify({'error': 'City not found'}), 404
-    return jsonify(city.to_dict())
+@cities_api.route('/')
+class CityList(Resource):
+    @cities_api.doc('list_cities')
+    @cities_api.marshal_list_with(city_model)
+    def get(self):
+        '''List all cities'''
+        return []  # Replace with actual implementation
 
-@bp.route('/', methods=['GET'])
-def get_cities():
-    cities = City.get_all()
-    return jsonify([city.to_dict() for city in cities])
+    @cities_api.doc('create_city')
+    @cities_api.expect(city_model)
+    @cities_api.marshal_with(city_model, code=201)
+    def post(self):
+        '''Create a new city'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<city_id>', methods=['PUT'])
-def update_city(city_id):
-    city = City.get(city_id)
-    if not city:
-        return jsonify({'error': 'City not found'}), 404
-    data = request.get_json()
-    city.name = data.get('name', city.name)
-    city.country_code = data.get('country_code', city.country_code)
-    city.save()
-    return jsonify(city.to_dict())
+@cities_api.route('/<string:city_id>')
+class CityResource(Resource):
+    @cities_api.doc('get_city')
+    @cities_api.marshal_with(city_model)
+    def get(self, city_id):
+        '''Fetch a city given its identifier'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<city_id>', methods=['DELETE'])
-def delete_city(city_id):
-    city = City.get(city_id)
-    if not city:
-        return jsonify({'error': 'City not found'}), 404
-    city.delete()
-    return '', 204
+    @cities_api.doc('update_city')
+    @cities_api.expect(city_model)
+    @cities_api.marshal_with(city_model)
+    def put(self, city_id):
+        '''Update a city given its identifier'''
+        return {}  # Replace with actual implementation
+
+    @cities_api.doc('delete_city')
+    def delete(self, city_id):
+        '''Delete a city given its identifier'''
+        return '', 204  # Replace with actual implementation

@@ -1,41 +1,43 @@
-from flask import Blueprint, request, jsonify
-from app.models.amenity import Amenity
+from flask_restx import Namespace, Resource, fields
 
-bp = Blueprint('amenities', __name__, url_prefix='/amenities')
+amenities_api = Namespace('amenities', description='Amenities operations')
 
-@bp.route('/', methods=['POST'])
-def create_amenity():
-    data = request.get_json()
-    amenity = Amenity(name=data['name'])
-    amenity.save()
-    return jsonify(amenity.to_dict()), 201
+amenity_model = amenities_api.model('Amenity', {
+    'id': fields.String(required=True, description='The amenity identifier'),
+    'name': fields.String(required=True, description='The amenity name'),
+})
 
-@bp.route('/<amenity_id>', methods=['GET'])
-def get_amenity(amenity_id):
-    amenity = Amenity.get(amenity_id)
-    if not amenity:
-        return jsonify({'error': 'Amenity not found'}), 404
-    return jsonify(amenity.to_dict())
+@amenities_api.route('/')
+class AmenityList(Resource):
+    @amenities_api.doc('list_amenities')
+    @amenities_api.marshal_list_with(amenity_model)
+    def get(self):
+        '''List all amenities'''
+        return []  # Replace with actual implementation
 
-@bp.route('/', methods=['GET'])
-def get_amenities():
-    amenities = Amenity.get_all()
-    return jsonify([amenity.to_dict() for amenity in amenities])
+    @amenities_api.doc('create_amenity')
+    @amenities_api.expect(amenity_model)
+    @amenities_api.marshal_with(amenity_model, code=201)
+    def post(self):
+        '''Create a new amenity'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<amenity_id>', methods=['PUT'])
-def update_amenity(amenity_id):
-    amenity = Amenity.get(amenity_id)
-    if not amenity:
-        return jsonify({'error': 'Amenity not found'}), 404
-    data = request.get_json()
-    amenity.name = data.get('name', amenity.name)
-    amenity.save()
-    return jsonify(amenity.to_dict())
+@amenities_api.route('/<string:amenity_id>')
+class AmenityResource(Resource):
+    @amenities_api.doc('get_amenity')
+    @amenities_api.marshal_with(amenity_model)
+    def get(self, amenity_id):
+        '''Fetch an amenity given its identifier'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<amenity_id>', methods=['DELETE'])
-def delete_amenity(amenity_id):
-    amenity = Amenity.get(amenity_id)
-    if not amenity:
-        return jsonify({'error': 'Amenity not found'}), 404
-    amenity.delete()
-    return '', 204
+    @amenities_api.doc('update_amenity')
+    @amenities_api.expect(amenity_model)
+    @amenities_api.marshal_with(amenity_model)
+    def put(self, amenity_id):
+        '''Update an amenity given its identifier'''
+        return {}  # Replace with actual implementation
+
+    @amenities_api.doc('delete_amenity')
+    def delete(self, amenity_id):
+        '''Delete an amenity given its identifier'''
+        return '', 204  # Replace with actual implementation

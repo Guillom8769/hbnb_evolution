@@ -1,63 +1,44 @@
-from flask import Blueprint, request, jsonify
-from app.models.place import Place
+from flask_restx import Namespace, Resource, fields
 
-bp = Blueprint('places', __name__, url_prefix='/places')
+places_api = Namespace('places', description='Places operations')
 
-@bp.route('/', methods=['POST'])
-def create_place():
-    data = request.get_json()
-    place = Place(
-        name=data['name'],
-        description=data['description'],
-        address=data['address'],
-        city_id=data['city_id'],
-        latitude=data['latitude'],
-        longitude=data['longitude'],
-        host_id=data['host_id'],
-        num_rooms=data['num_rooms'],
-        num_bathrooms=data['num_bathrooms'],
-        price_per_night=data['price_per_night'],
-        max_guests=data['max_guests']
-    )
-    place.save()
-    return jsonify(place.to_dict()), 201
+place_model = places_api.model('Place', {
+    'id': fields.String(required=True, description='The place identifier'),
+    'name': fields.String(required=True, description='The place name'),
+    'description': fields.String(required=True, description='The place description'),
+})
 
-@bp.route('/<place_id>', methods=['GET'])
-def get_place(place_id):
-    place = Place.get(place_id)
-    if not place:
-        return jsonify({'error': 'Place not found'}), 404
-    return jsonify(place.to_dict())
+@places_api.route('/')
+class PlaceList(Resource):
+    @places_api.doc('list_places')
+    @places_api.marshal_list_with(place_model)
+    def get(self):
+        '''List all places'''
+        return []  # Replace with actual implementation
 
-@bp.route('/', methods=['GET'])
-def get_places():
-    places = Place.get_all()
-    return jsonify([place.to_dict() for place in places])
+    @places_api.doc('create_place')
+    @places_api.expect(place_model)
+    @places_api.marshal_with(place_model, code=201)
+    def post(self):
+        '''Create a new place'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<place_id>', methods=['PUT'])
-def update_place(place_id):
-    place = Place.get(place_id)
-    if not place:
-        return jsonify({'error': 'Place not found'}), 404
-    data = request.get_json()
-    place.name = data.get('name', place.name)
-    place.description = data.get('description', place.description)
-    place.address = data.get('address', place.address)
-    place.city_id = data.get('city_id', place.city_id)
-    place.latitude = data.get('latitude', place.latitude)
-    place.longitude = data.get('longitude', place.longitude)
-    place.host_id = data.get('host_id', place.host_id)
-    place.num_rooms = data.get('num_rooms', place.num_rooms)
-    place.num_bathrooms = data.get('num_bathrooms', place.num_bathrooms)
-    place.price_per_night = data.get('price_per_night', place.price_per_night)
-    place.max_guests = data.get('max_guests', place.max_guests)
-    place.save()
-    return jsonify(place.to_dict())
+@places_api.route('/<string:place_id>')
+class PlaceResource(Resource):
+    @places_api.doc('get_place')
+    @places_api.marshal_with(place_model)
+    def get(self, place_id):
+        '''Fetch a place given its identifier'''
+        return {}  # Replace with actual implementation
 
-@bp.route('/<place_id>', methods=['DELETE'])
-def delete_place(place_id):
-    place = Place.get(place_id)
-    if not place:
-        return jsonify({'error': 'Place not found'}), 404
-    place.delete()
-    return '', 204
+    @places_api.doc('update_place')
+    @places_api.expect(place_model)
+    @places_api.marshal_with(place_model)
+    def put(self, place_id):
+        '''Update a place given its identifier'''
+        return {}  # Replace with actual implementation
+
+    @places_api.doc('delete_place')
+    def delete(self, place_id):
+        '''Delete a place given its identifier'''
+        return '', 204  # Replace with actual implementation
