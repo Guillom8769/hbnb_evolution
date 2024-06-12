@@ -1,31 +1,113 @@
 {
     "Review": {
-        "778ca4d9-1297-4db0-a1b2-ac11b034158c": {
-            "id": "778ca4d9-1297-4db0-a1b2-ac11b034158c",
-            "user_id": "user_1",
-            "place_id": "place_1",
+        "8eb2e6d4-da50-4145-b034-7a64674dc019": {
+            "id": "8eb2e6d4-da50-4145-b034-7a64674dc019",
+            "user_id": "123",
+            "place_id": "456",
             "rating": 5,
-            "text": "Great place!",
-            "created_at": "2024-06-12T15:15:20.864599",
-            "updated_at": "2024-06-12T15:15:20.864607"
+            "comment": "Great place!",
+            "created_at": "2024-06-12T16:41:43.904692",
+            "updated_at": "2024-06-12T16:41:43.904701"
         },
-        "5ccb24b7-e82e-4898-98c7-b03dd505becf": {
-            "id": "5ccb24b7-e82e-4898-98c7-b03dd505becf",
-            "user_id": "user_1",
-            "place_id": "place_1",
+        "75c6a51e-d3b4-44a3-b285-aa5aa31ac2fd": {
+            "id": "75c6a51e-d3b4-44a3-b285-aa5aa31ac2fd",
+            "user_id": "123",
+            "place_id": "456",
             "rating": 5,
-            "text": "Great place!",
-            "created_at": "2024-06-12T15:15:20.864953",
-            "updated_at": "2024-06-12T15:15:20.864960"
+            "comment": "Great place!",
+            "created_at": "2024-06-12T16:41:43.905099",
+            "updated_at": "2024-06-12T16:41:43.905107"
         },
-        "61ef2077-efef-4cba-978f-694e18c2e60f": {
-            "id": "61ef2077-efef-4cba-978f-694e18c2e60f",
-            "user_id": "user_1",
-            "place_id": "place_1",
+        "180e7d70-5329-43fa-8ab2-7d279c20e79d": {
+            "id": "180e7d70-5329-43fa-8ab2-7d279c20e79d",
+            "user_id": "123",
+            "place_id": "456",
             "rating": 5,
-            "text": "Updated review",
-            "created_at": "2024-06-12T15:15:20.865288",
-            "updated_at": "2024-06-12T15:15:20.865505"
+            "comment": "Updated comment",
+            "created_at": "2024-06-12T16:41:43.905569",
+            "updated_at": "2024-06-12T16:41:43.905882"
+        },
+        "20af1194-8b05-4e06-9fd4-12c80187b3df": {
+            "id": "20af1194-8b05-4e06-9fd4-12c80187b3df",
+            "user_id": "a2550776-53c5-4fcc-b321-69702005a8c8",
+            "place_id": "123",
+            "rating": 5,
+            "comment": "Great place!",
+            "created_at": "2024-06-12T16:41:43.983923",
+            "updated_at": "2024-06-12T16:41:43.983931"
+        },
+        "02c818d6-04e1-4c94-a3d3-916b46c795aa": {
+            "id": "02c818d6-04e1-4c94-a3d3-916b46c795aa",
+            "user_id": "35194551-8846-4d6c-9002-ae3c23406580",
+            "place_id": "123",
+            "rating": 5,
+            "comment": "Great place!",
+            "created_at": "2024-06-12T16:41:43.985809",
+            "updated_at": "2024-06-12T16:41:43.985818"
+        },
+        "2a038110-293a-4b28-ae8a-19395b962688": {
+            "id": "2a038110-293a-4b28-ae8a-19395b962688",
+            "user_id": "d6558d50-587f-4567-a8d7-42c2b1330544",
+            "place_id": "123",
+            "rating": 5,
+            "comment": "Updated review",
+            "created_at": "2024-06-12T16:41:43.988647",
+            "updated_at": "2024-06-12T16:41:43.989023"
+        }
+    },
+    "City": {
+        "42bb763a-12b2-4053-afbe-1513c4189c5a": {
+            "id": "42bb763a-12b2-4053-afbe-1513c4189c5a",
+            "name": "New York",
+            "country_code": "US",
+            "description": null,
+            "created_at": "2024-06-12T16:41:43.983451",
+            "updated_at": "2024-06-12T16:41:43.983464"
+        },
+        "37f69d92-ea8e-43b0-8e01-e7497348cc2b": {
+            "id": "37f69d92-ea8e-43b0-8e01-e7497348cc2b",
+            "name": "New York",
+            "country_code": "US",
+            "description": null,
+            "created_at": "2024-06-12T16:41:43.985095",
+            "updated_at": "2024-06-12T16:41:43.985113"
+        },
+        "99d38ae6-d70e-4d6e-a824-201943fb0d0d": {
+            "id": "99d38ae6-d70e-4d6e-a824-201943fb0d0d",
+            "name": "Los Angeles",
+            "country_code": "US",
+            "description": null,
+            "created_at": "2024-06-12T16:41:43.987432",
+            "updated_at": "2024-06-12T16:41:43.987969"
+        }
+    },
+    "User": {
+        "c0d1bbc9-4aa0-4100-90cb-5612d858d11b": {
+            "id": "c0d1bbc9-4aa0-4100-90cb-5612d858d11b",
+            "email": "test@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "created_at": "2024-06-12T16:41:43.984463",
+            "updated_at": "2024-06-12T16:41:43.984503"
+        },
+        "368f8f71-3d5b-47dd-864d-abd722547cfe": {
+            "id": "368f8f71-3d5b-47dd-864d-abd722547cfe",
+            "email": "test@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "created_at": "2024-06-12T16:41:43.986625",
+            "updated_at": "2024-06-12T16:41:43.986656"
+        },
+        "85831b6d-0e47-4bad-ac24-bca8dc7e6397": {
+            "id": "85831b6d-0e47-4bad-ac24-bca8dc7e6397",
+            "email": "newemail@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "created_at": "2024-06-12T16:41:43.989699",
+            "updated_at": "2024-06-12T16:41:43.990053"
         }
     }
 }

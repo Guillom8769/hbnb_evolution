@@ -1,39 +1,42 @@
 import unittest
+from datetime import datetime
 from app.models.review import Review
+from app.persistence.data_manager import DataManager
 
 class ReviewModelTestCase(unittest.TestCase):
     def setUp(self):
+        self.data_manager = DataManager()
         self.review = Review(
-            user_id="user_1",
-            place_id="place_1",
+            user_id='123',
+            place_id='456',
             rating=5,
-            text="Great place!"
+            comment='Great place!'
         )
 
     def test_save_and_get_review(self):
         self.review.save()
-        saved_review = Review.get(self.review.id)
-        self.assertIsNotNone(saved_review)
-        self.assertEqual(saved_review.id, self.review.id)
-        self.assertEqual(saved_review.text, "Great place!")
-
-    def test_update_review(self):
-        self.review.save()
-        self.review.text = "Updated review"
-        self.review.save()
-        updated_review = Review.get(self.review.id)
-        self.assertEqual(updated_review.text, "Updated review")
-
-    def test_delete_review(self):
-        self.review.save()
-        self.review.delete()
-        deleted_review = Review.get(self.review.id)
-        self.assertIsNone(deleted_review)
+        retrieved_review = Review.get(self.review.id)
+        self.assertIsNotNone(retrieved_review)
+        self.assertEqual(retrieved_review.comment, 'Great place!')
 
     def test_get_all_reviews(self):
         self.review.save()
         reviews = Review.get_all()
-        self.assertGreaterEqual(len(reviews), 1)
+        self.assertIn(self.review.id, [review.id for review in reviews])
+
+    def test_update_review(self):
+        self.review.save()
+        self.review.comment = 'Updated comment'
+        self.review.save()
+        retrieved_review = Review.get(self.review.id)
+        self.assertEqual(retrieved_review.comment, 'Updated comment')
+
+    def test_delete_review(self):
+        self.review.save()
+        review_id = self.review.id
+        self.review.delete()
+        retrieved_review = Review.get(review_id)
+        self.assertIsNone(retrieved_review)
 
 if __name__ == '__main__':
     unittest.main()
