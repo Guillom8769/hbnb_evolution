@@ -14,8 +14,12 @@ class DataManager(IPersistenceManager):
                 json.dump({}, f)
 
     def _read_data(self):
+        self._initialize_file()
         with open(self.file_path, 'r') as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                return {}
 
     def _write_data(self, data):
         with open(self.file_path, 'w') as f:
@@ -26,7 +30,7 @@ class DataManager(IPersistenceManager):
         data = self._read_data()
         entity_data = entity.to_dict()
         entity_type = entity.__class__.__name__
-        entity_id = entity.code if entity_type == 'Country' else entity.id
+        entity_id = entity.id
         if entity_type not in data:
             data[entity_type] = {}
         data[entity_type][entity_id] = entity_data
@@ -51,3 +55,9 @@ class DataManager(IPersistenceManager):
         self._initialize_file()
         data = self._read_data()
         return list(data.get(entity_type, {}).values())
+
+    def clear(self, entity_type):
+        data = self._read_data()
+        if entity_type in data:
+            data[entity_type] = {}
+            self._write_data(data)

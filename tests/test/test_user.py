@@ -1,23 +1,39 @@
+# tests/test/test_data_manager.py
+
 import unittest
 from app.models.user import User
+from app.persistence.data_manager import DataManager
 
-class UserModelTestCase(unittest.TestCase):
+class DataManagerTestCase(unittest.TestCase):
     def setUp(self):
-        self.user = User(email="test@example.com", password="password", first_name="Test", last_name="User")
+        self.storage = DataManager()
+        self.storage.clear('User')
+        self.user = User(email="test@example.com", first_name="Test", last_name="User", password="password")
 
-    def test_user_creation(self):
-        self.assertEqual(self.user.email, "test@example.com")
-        self.assertEqual(self.user.first_name, "Test")
-        self.assertEqual(self.user.last_name, "User")
-        self.assertIsNotNone(self.user.id)
-        self.assertIsNotNone(self.user.created_at)
-        self.assertIsNotNone(self.user.updated_at)
+    def test_save_user(self):
+        try:
+            self.user.save()
+        except ValueError:
+            self.fail("save() raised ValueError unexpectedly!")
 
-    def test_user_to_dict(self):
-        user_dict = self.user.to_dict()
-        self.assertEqual(user_dict['email'], "test@example.com")
-        self.assertEqual(user_dict['first_name'], "Test")
-        self.assertEqual(user_dict['last_name'], "User")
+    def test_update_user(self):
+        self.user.save()
+        self.user.first_name = "Updated"
+        self.user.save()
+        updated_user = User.get(self.user.id)
+        self.assertEqual(updated_user.first_name, "Updated")
 
-if __name__ == '__main__':
+    def test_save_and_get_user(self):
+        self.user.save()
+        retrieved_user = User.get(self.user.id)
+        self.assertIsNotNone(retrieved_user)
+        self.assertEqual(retrieved_user.email, self.user.email)
+        self.assertEqual(retrieved_user.first_name, self.user.first_name)
+        self.assertEqual(retrieved_user.last_name, self.user.last_name)
+        self.assertEqual(retrieved_user.password, self.user.password)  # Assurez-vous que le mot de passe est géré correctement
+
+    def tearDown(self):
+        self.storage.clear('User')
+
+if __name__ == "__main__":
     unittest.main()
